@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Party for Your Mind | U-M Digital Accessibility</title>
+
+  <style>
+    :root {
+      --um-blue: #00274c;
+      --um-maize: #ffcb05;
+      --white: #ffffff;
+      --black: #000000;
+      --page-background: #f7f6f2;
+      --border: #b8c2cc;
+      --focus: #2f65a7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: var(--page-background);
+      color: var(--black);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      display: flex;
+      min-height: 76px;
+      align-items: center;
+      padding: 0.75rem clamp(1rem, 4vw, 3rem);
+      background: var(--um-blue);
+      border-bottom: 6px solid var(--um-maize);
+    }
+
+    .brand-logo {
+      display: block;
+      width: auto;
+      height: clamp(34px, 4.2vw, 52px);
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding:
+        clamp(1.5rem, 5vh, 3.5rem)
+        clamp(1rem, 4vw, 2.5rem);
+    }
+
+    .page-heading {
+      margin-bottom: clamp(1.75rem, 4vw, 3rem);
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.35rem;
+      color: var(--um-blue);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--um-blue);
+      font-size: clamp(2.6rem, 8vw, 6rem);
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+    }
+
+    .lead {
+      margin: 0.9rem auto 0;
+      max-width: 46ch;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+    }
+
+    .station-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.75rem);
+    }
+
+    .station {
+      display: flex;
+      min-height: 260px;
+      flex-direction: column;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      background: var(--white);
+      color: var(--um-blue);
+      border: 3px solid var(--um-blue);
+      border-radius: 0.75rem;
+      box-shadow: 0 5px 0 rgb(0 39 76 / 14%);
+      text-decoration: none;
+      transition:
+        transform 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+    }
+
+    .station:hover {
+      background: #f3efdf;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 rgb(0 39 76 / 18%);
+    }
+
+    .station:focus-visible {
+      outline: 4px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .station-icon {
+      display: grid;
+      width: 70px;
+      height: 70px;
+      place-items: center;
+      margin-bottom: 0.9rem;
+      background: var(--um-maize);
+      color: var(--um-blue);
+      border-radius: 50%;
+    }
+
+    .station-icon svg {
+      width: 42px;
+      height: 42px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .station h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      line-height: 1.15;
+    }
+
+    .station p {
+      margin: 0.7rem 0 0;
+      color: var(--black);
+      font-size: 1.05rem;
+    }
+
+    .station .go {
+      margin-top: auto;
+      padding-top: 1.25rem;
+      font-weight: 800;
+    }
+
+    .footnote {
+      margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
+      color: #53606d;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .station-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .station {
+        transition: none;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .station {
+        border: 2px solid CanvasText;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img
+      class="brand-logo"
+      src="digital-accessibility-logo.png"
+      alt="University of Michigan Digital Accessibility"
+    >
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <p class="eyebrow">Party for Your Mind</p>
+      <h1>Welcome!</h1>
+
+      <p class="lead">
+        Two things to try at our table. Pick either one, and say hello
+        while you are here.
+      </p>
+    </div>
+
+    <div class="station-grid">
+      <a class="station" href="index-how-to-read.html">
+        <span class="station-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="23"></circle>
+            <path d="M32 9v46"></path>
+            <path d="M32 32 52 22"></path>
+          </svg>
+        </span>
+
+        <h2>How do you read?</h2>
+
+        <p>
+          Tell us the format you reach for, and watch the answers from
+          everyone else fill in.
+        </p>
+
+        <span class="go" aria-hidden="true">Open &#8594;</span>
+      </a>
+
+      <a class="station" href="index-try-tools.html">
+        <span class="station-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <circle cx="27" cy="27" r="17"></circle>
+            <path d="m40 40 14 14M27 19v16M19 27h16"></path>
+          </svg>
+        </span>
+
+        <h2>Try our tools!</h2>
+
+        <p>
+          Alternate formats in Canvas, zoom and spacing, read aloud, and
+          contrast &mdash; all running right here in the browser.
+        </p>
+
+        <span class="go" aria-hidden="true">Open &#8594;</span>
+      </a>
+    </div>
+
+    <p class="footnote">
+      Nothing you do here leaves this laptop.
+    </p>
+  </main>
+</body>
+</html>

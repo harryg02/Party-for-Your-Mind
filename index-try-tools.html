@@ -24,6 +24,9 @@
       --page-zoom: 1;
       --page-line-height: 1.55;
       --page-letter-spacing: 0em;
+
+      /* Panorama's own blue, so the icon reads as the real thing. */
+      --panorama-blue: #1b6ec2;
     }
 
     * {
@@ -78,38 +81,16 @@
       padding: 0.75rem clamp(1rem, 4vw, 2rem);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
+    /*
+      Official U-M Digital Accessibility word mark. The artwork is
+      white type with a maize block M, so it is only ever placed on
+      the blue header bar.
+    */
 
-    .block-m {
-      display: grid;
-      width: 52px;
-      height: 52px;
-      place-items: center;
-      flex: 0 0 auto;
-      background: var(--um-maize);
-      color: var(--um-blue);
-      font-size: 1.8rem;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .brand-name,
-    .brand-unit {
-      margin: 0;
-    }
-
-    .brand-name {
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .brand-unit {
-      color: #e5edf5;
-      font-size: 0.9rem;
+    .brand-logo {
+      display: block;
+      width: auto;
+      height: clamp(34px, 4.2vw, 52px);
     }
 
     .home-button {
@@ -167,8 +148,8 @@
     h1 {
       margin: 0;
       color: var(--um-blue);
-      font-size: clamp(2.4rem, 7vw, 5rem);
-      line-height: 1.05;
+      font-size: clamp(3rem, 9vw, 7rem);
+      line-height: 0.98;
       letter-spacing: -0.035em;
     }
 
@@ -178,8 +159,8 @@
     }
 
     .lead {
-      margin: 0.75rem 0 0;
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      margin: 0.9rem 0 0;
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
     }
 
     .view-header {
@@ -189,7 +170,7 @@
     }
 
     .view-header h1 {
-      font-size: clamp(2rem, 5vw, 3.75rem);
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
     }
 
     .view-header p {
@@ -280,15 +261,86 @@
       gap: 1.25rem;
     }
 
+    /*
+      The whole card is the control. A stretched pseudo-element on the
+      title button covers the card, so there is still exactly one
+      focusable element per card and its name is the card title.
+    */
+
     .tool-card {
+      position: relative;
       display: flex;
       min-height: 300px;
       flex-direction: column;
       padding: 1.5rem;
       background: var(--surface);
-      border: 2px solid var(--um-blue);
+      border: 3px solid var(--um-blue);
       border-radius: 0.75rem;
       box-shadow: 0 5px 0 rgb(0 39 76 / 14%);
+      cursor: pointer;
+      transition:
+        transform 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+    }
+
+    .tool-card:hover {
+      background: #f3efdf;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 rgb(0 39 76 / 18%);
+    }
+
+    .tool-card:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 0 rgb(0 39 76 / 18%);
+    }
+
+    .tool-card:has(.tool-card-button:focus-visible) {
+      outline: 4px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .tool-card-button {
+      padding: 0;
+      background: none;
+      color: inherit;
+      border: 0;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .tool-card-button::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+    }
+
+    .tool-card-button:focus-visible {
+      outline: none;
+    }
+
+    /*
+      Kept as the visual call to action. The card itself is what you
+      click, so this is not a separate control.
+    */
+
+    .try-it {
+      display: inline-flex;
+      align-self: flex-start;
+      min-height: 44px;
+      align-items: center;
+      margin-top: auto;
+      padding: 0.65rem 1.1rem;
+      background: var(--um-blue);
+      color: var(--white);
+      border: 2px solid var(--um-blue);
+      border-radius: 0.35rem;
+      font-weight: 800;
+    }
+
+    .tool-card:hover .try-it {
+      background: #001a33;
     }
 
     .tool-card-icon {
@@ -314,50 +366,141 @@
 
     .tool-card h2 {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     .tool-card p {
       margin: 0.7rem 0 1.25rem;
-    }
-
-    .tool-card .primary-button {
-      align-self: flex-start;
-      margin-top: auto;
+      font-size: 1.05rem;
     }
 
     /* Panorama simulation */
 
+    /*
+      The icon a student actually looks for in Canvas: a blue ring
+      around a blue outline of a person, the universal digital
+      accessibility symbol.
+    */
+
+    .panorama-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--panorama-blue);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .panorama-icon .icon-disc {
+      fill: var(--white);
+      stroke-width: 4;
+    }
+
+    .panorama-icon .icon-head {
+      fill: var(--panorama-blue);
+      stroke: none;
+    }
+
+    .panorama-icon .icon-body {
+      stroke-width: 5.5;
+    }
+
+    .canvas-file-row {
+      display: flex;
+      max-width: 900px;
+      align-items: center;
+      gap: 0.85rem;
+      margin: 0 auto;
+      padding: 0.85rem 1.1rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+    }
+
+    .file-glyph {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 auto;
+      color: var(--um-blue);
+    }
+
+    .file-glyph svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .file-name {
+      flex: 1 1 auto;
+      color: var(--um-blue);
+      font-weight: 700;
+    }
+
+    .panorama-icon-button {
+      display: grid;
+      width: 60px;
+      height: 60px;
+      place-items: center;
+      flex: 0 0 auto;
+      padding: 4px;
+      background: none;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      /* Maize halo so the icon is unmissable across a table. */
+      box-shadow:
+        0 0 0 4px var(--um-maize),
+        0 0 0 7px rgb(0 39 76 / 25%);
+    }
+
+    .panorama-icon-button:hover {
+      background: #e8f1fb;
+    }
+
+    .canvas-file-hint {
+      max-width: 900px;
+      margin: 0.5rem auto 1.5rem;
+      padding-inline: 1.1rem;
+      color: var(--um-blue);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .canvas-file-hint .hint-arrow {
+      font-size: 1.3rem;
+    }
+
+    /* The Alternative Formats menu itself */
+
     .panorama-menu {
-      max-width: 560px;
-      margin: 1.5rem auto 0;
+      max-width: 620px;
+      margin: 1.75rem auto 0;
       overflow: hidden;
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 0.5rem;
-      box-shadow: 0 8px 28px rgb(0 0 0 / 14%);
+      box-shadow: 0 8px 28px rgb(0 0 0 / 18%);
     }
 
     .panorama-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1rem;
-      background: var(--um-blue);
+      gap: 0.85rem;
+      padding: 0.9rem 1rem;
+      background: var(--panorama-blue);
       color: var(--white);
     }
 
     .panorama-symbol {
-      display: grid;
-      width: 44px;
-      height: 44px;
-      place-items: center;
+      width: 40px;
+      height: 40px;
       flex: 0 0 auto;
-      background: var(--um-maize);
-      color: var(--um-blue);
-      border-radius: 50%;
-      font-size: 1.4rem;
-      font-weight: 900;
     }
 
     .panorama-header h2,
@@ -366,8 +509,13 @@
       color: inherit;
     }
 
+    .panorama-header h2 {
+      font-size: 1.2rem;
+    }
+
     .panorama-header p {
       font-size: 0.85rem;
+      opacity: 0.9;
     }
 
     .format-options {
@@ -378,87 +526,226 @@
       border: 0;
     }
 
-    .format-options legend {
-      width: 100%;
-      padding: 1rem 1rem 0.5rem;
-      color: var(--um-blue);
-      font-weight: 800;
-    }
-
     .format-option {
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.75rem;
-      align-items: start;
-      padding: 0.85rem 1rem;
-      border-top: 1px solid #d9dee3;
+      grid-template-columns: auto auto 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 0.9rem 1rem;
+      border-top: 1px solid #dde2e7;
       cursor: pointer;
     }
 
+    .format-option:first-of-type {
+      border-top: 0;
+    }
+
     .format-option:hover {
-      background: #f6f3e8;
+      background: #eef4fb;
+    }
+
+    .format-option:has(input:checked) {
+      background: #e3eefb;
+      box-shadow: inset 5px 0 0 var(--panorama-blue);
+    }
+
+    .format-option:has(input:focus-visible) {
+      outline: 3px solid var(--focus);
+      outline-offset: -3px;
     }
 
     .format-option input {
-      width: 1.25rem;
-      height: 1.25rem;
-      margin-top: 0.15rem;
-      accent-color: var(--um-blue);
+      width: 1.3rem;
+      height: 1.3rem;
+      accent-color: var(--panorama-blue);
     }
 
-    .format-option strong,
-    .format-option small {
+    .format-glyph {
+      width: 30px;
+      height: 30px;
+      color: var(--panorama-blue);
+    }
+
+    .format-glyph svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .format-copy strong,
+    .format-copy small {
       display: block;
     }
 
-    .format-option small {
+    .format-copy strong {
+      font-size: 1.05rem;
+    }
+
+    .format-copy small {
       margin-top: 0.15rem;
       color: var(--muted);
+      line-height: 1.4;
     }
 
     .panorama-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
       padding: 1rem;
       background: #f2f4f5;
       border-top: 1px solid var(--border);
     }
 
-    .conversion-results {
+    .panorama-actions .primary-button {
+      background: var(--panorama-blue);
+      border-color: var(--panorama-blue);
+    }
+
+    .panorama-actions .primary-button:hover {
+      background: #155a9e;
+    }
+
+    .format-status {
+      color: var(--um-blue);
+      font-weight: 700;
+    }
+
+    .panorama-footnote {
+      max-width: 620px;
+      margin: 0.85rem auto 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* Generated output */
+
+    .format-output {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding: clamp(1rem, 3vw, 1.5rem);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 8px solid var(--um-maize);
+      border-radius: 0.75rem;
+      box-shadow: 0 8px 25px rgb(0 39 76 / 10%);
+    }
+
+    .format-output[hidden] {
+      display: none;
+    }
+
+    .format-output-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem;
-      margin-top: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
     }
 
-    .conversion-results:empty {
-      display: none;
+    .format-output-bar h2 {
+      margin: 0;
+      font-size: 1.4rem;
     }
 
-    /* Gradient reader */
+    .format-output-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
 
-    .gradient-reader {
-      margin-top: 1.5rem;
-      padding: clamp(1.25rem, 4vw, 2rem);
+    /*
+      Every generated format is shown on a white document surface so it
+      reads as file output rather than as part of the page.
+    */
+
+    .document-surface {
       background: var(--white);
-      border: 3px solid var(--um-blue);
-      border-radius: 0.5rem;
+      color: #000000;
+      border: 1px solid #c9cdd2;
     }
 
-    .gradient-reader[hidden] {
+    .text-output {
+      max-height: 26rem;
+      margin: 0;
+      padding: 1.25rem;
+      overflow: auto;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
+
+    /*
+      A US Letter page at the same proportions and margins as the PDF
+      that the download button produces.
+    */
+
+    .pdf-preview {
+      display: grid;
+      place-items: start center;
+      padding: 1.25rem;
+      background: #6b7076;
+      border-radius: 0.35rem;
+    }
+
+    .pdf-page {
+      width: min(100%, 520px);
+      padding: 8.8%;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.35;
+      aspect-ratio: 612 / 792;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 45%);
+    }
+
+    .pdf-page p {
+      margin: 0 0 0.9em;
+    }
+
+    /*
+      Gradient Reader. Panorama recolors the text line by line so the
+      eye is pulled from one line to the next; the colors are applied
+      in script once the browser has laid the lines out.
+    */
+
+    .gradient-page {
+      padding: clamp(1.25rem, 4vw, 2rem);
+      font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+      line-height: 1.75;
+    }
+
+    .gradient-page p {
+      margin: 0 0 1em;
+    }
+
+    .gradient-page p:last-child {
+      margin-bottom: 0;
+    }
+
+    .gradient-page .gradient-title {
+      margin: 0 0 1em;
+      font-size: 1.15em;
+      font-weight: 800;
+    }
+
+    .gradient-forced-colors-note {
       display: none;
     }
 
-    .gradient-reader-text p,
-    .gradient-reader-text h2 {
-      color: transparent;
-      background-image: linear-gradient(
-        90deg,
-        var(--um-blue) 0%,
-        #3e556c 32%,
-        #7c7042 65%,
-        var(--um-blue) 100%
-      );
-      background-clip: text;
-      -webkit-background-clip: text;
+    .output-note {
+      margin: 0.85rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     /* Zoom controls */
@@ -612,6 +899,7 @@
 
     body[data-contrast="high"] main h1,
     body[data-contrast="high"] main h2,
+    body[data-contrast="high"] main legend,
     body[data-contrast="high"] main .eyebrow,
     body[data-contrast="high"] .speech-status,
     body[data-contrast="high"] .zoom-output,
@@ -622,10 +910,14 @@
     body[data-contrast="high"] .tool-card,
     body[data-contrast="high"] .tool-panel,
     body[data-contrast="high"] .sample-text,
-    body[data-contrast="high"] .gradient-reader {
+    body[data-contrast="high"] .format-output {
       background: var(--black);
       color: var(--white);
       border-color: var(--white);
+    }
+
+    body[data-contrast="high"] .tool-card:hover {
+      background: #1a1a1a;
     }
 
     body[data-contrast="high"] .primary-button {
@@ -655,8 +947,48 @@
 
     body[data-contrast="maize"] .tool-card,
     body[data-contrast="maize"] .tool-panel,
-    body[data-contrast="maize"] .sample-text {
+    body[data-contrast="maize"] .sample-text,
+    body[data-contrast="maize"] .format-output {
       background: var(--um-maize);
+    }
+
+    body[data-contrast="maize"] .tool-card:hover {
+      background: #ffd84a;
+    }
+
+    body[data-contrast="maize"] .contrast-choice:has(input:checked) {
+      outline-color: var(--um-blue);
+    }
+
+    body[data-contrast="maize"] .try-it {
+      background: var(--um-blue);
+      color: var(--white);
+    }
+
+    /*
+      The Panorama menu and the generated document surfaces keep their
+      own colors under every theme: the menu is a picture of another
+      product, and the output panes represent files.
+    */
+
+    body[data-contrast] .panorama-menu,
+    body[data-contrast] .canvas-file-row,
+    body[data-contrast] .document-surface {
+      background: var(--white);
+      color: #1f1f1f;
+    }
+
+    body[data-contrast] .document-surface {
+      color: #000000;
+    }
+
+    body[data-contrast] .format-copy small {
+      color: #53606d;
+    }
+
+    body[data-contrast] .file-name,
+    body[data-contrast] .format-copy strong {
+      color: var(--um-blue);
     }
 
     /* Screen-reader-only content */
@@ -695,6 +1027,15 @@
         grid-template-columns: 1fr;
       }
 
+      .format-option {
+        grid-template-columns: auto 1fr;
+        align-items: start;
+      }
+
+      .format-glyph {
+        display: none;
+      }
+
       .setting-row {
         grid-template-columns: 1fr;
         gap: 0.35rem;
@@ -706,15 +1047,6 @@
     }
 
     @media (max-width: 500px) {
-      .brand-unit {
-        display: none;
-      }
-
-      .block-m {
-        width: 44px;
-        height: 44px;
-      }
-
       .home-button .home-label {
         display: none;
       }
@@ -736,8 +1068,18 @@
     @media (forced-colors: active) {
       .tool-card,
       .tool-panel,
-      .contrast-choice {
+      .contrast-choice,
+      .format-output {
         border: 2px solid CanvasText;
+      }
+
+      /*
+        Forced colors override the per-line gradient, so say so rather
+        than showing text that looks unchanged.
+      */
+
+      .gradient-forced-colors-note {
+        display: block;
       }
     }
 
@@ -746,6 +1088,9 @@
       .home-button,
       button,
       .panorama-menu,
+      .canvas-file-row,
+      .canvas-file-hint,
+      .panorama-footnote,
       .speech-controls,
       .contrast-options {
         display: none !important;
@@ -762,14 +1107,11 @@
 <body data-contrast="standard">
   <header class="site-header">
     <div class="header-inner">
-      <div class="brand">
-        <div class="block-m" aria-hidden="true">M</div>
-
-        <div>
-          <p class="brand-name">University of Michigan</p>
-          <p class="brand-unit">Digital Accessibility</p>
-        </div>
-      </div>
+      <img
+        class="brand-logo"
+        src="digital-accessibility-logo.png"
+        alt="University of Michigan Digital Accessibility"
+      >
 
       <button
         class="home-button"
@@ -803,7 +1145,15 @@
             </svg>
           </div>
 
-          <h2>Panorama in Canvas</h2>
+          <h2>
+            <button
+              class="tool-card-button open-view"
+              type="button"
+              data-target="panorama"
+            >
+              Panorama in Canvas
+            </button>
+          </h2>
 
           <p>
             Panorama is a tool inside Canvas you can use to get alternate
@@ -811,13 +1161,7 @@
             icon and select the formats that meet your needs.
           </p>
 
-          <button
-            class="primary-button open-view"
-            type="button"
-            data-target="panorama"
-          >
-            Try it!
-          </button>
+          <span class="try-it" aria-hidden="true">Try it!</span>
         </article>
 
         <article class="tool-card">
@@ -828,7 +1172,15 @@
             </svg>
           </div>
 
-          <h2>Zoom and magnification</h2>
+          <h2>
+            <button
+              class="tool-card-button open-view"
+              type="button"
+              data-target="zoom"
+            >
+              Zoom and magnification
+            </button>
+          </h2>
 
           <p>
             Your mobile device, laptop, or browser has built-in options
@@ -836,13 +1188,7 @@
             size. U-M computers have even more tools, such as ZoomText.
           </p>
 
-          <button
-            class="primary-button open-view"
-            type="button"
-            data-target="zoom"
-          >
-            Try it!
-          </button>
+          <span class="try-it" aria-hidden="true">Try it!</span>
         </article>
 
         <article class="tool-card">
@@ -853,7 +1199,15 @@
             </svg>
           </div>
 
-          <h2>Read text aloud</h2>
+          <h2>
+            <button
+              class="tool-card-button open-view"
+              type="button"
+              data-target="speech"
+            >
+              Read text aloud
+            </button>
+          </h2>
 
           <p>
             Your mobile device, laptop, or browser has built-in options
@@ -861,13 +1215,7 @@
             including screen readers.
           </p>
 
-          <button
-            class="primary-button open-view"
-            type="button"
-            data-target="speech"
-          >
-            Try it!
-          </button>
+          <span class="try-it" aria-hidden="true">Try it!</span>
         </article>
 
         <article class="tool-card">
@@ -882,20 +1230,22 @@
             </svg>
           </div>
 
-          <h2>Contrast</h2>
+          <h2>
+            <button
+              class="tool-card-button open-view"
+              type="button"
+              data-target="contrast"
+            >
+              Contrast
+            </button>
+          </h2>
 
           <p>
             Your mobile device, laptop, or browser has built-in options
             to increase contrast.
           </p>
 
-          <button
-            class="primary-button open-view"
-            type="button"
-            data-target="contrast"
-          >
-            Try it!
-          </button>
+          <span class="try-it" aria-hidden="true">Try it!</span>
         </article>
       </div>
     </section>
@@ -912,18 +1262,62 @@
         <h1>Panorama in Canvas</h1>
 
         <p>
-          Choose one or more formats to convert the text on this screen.
+          In Canvas, look for the Panorama icon next to a file. It opens
+          the Alternative Formats menu, where you pick the format that
+          works for you.
         </p>
       </div>
 
+      <!--
+        A stand-in for a Canvas file listing, so the icon is shown
+        exactly where a student would come across it.
+      -->
+      <div class="canvas-file-row" data-tools-ui>
+        <span class="file-glyph" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+            <path d="M14 3v5h5"></path>
+          </svg>
+        </span>
+
+        <span class="file-name">
+          Week 1 - Accessible Course Materials.pdf
+        </span>
+
+        <button
+          class="panorama-icon-button"
+          id="panorama-icon-button"
+          type="button"
+        >
+          <span class="sr-only">
+            Open the Panorama Alternative Formats menu
+          </span>
+
+          <svg class="panorama-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <circle class="icon-disc" cx="32" cy="32" r="28"></circle>
+            <circle class="icon-head" cx="32" cy="17" r="5"></circle>
+            <path class="icon-body" d="M16 26h32"></path>
+            <path class="icon-body" d="M32 26v13"></path>
+            <path class="icon-body" d="M32 39l-8 12"></path>
+            <path class="icon-body" d="M32 39l8 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <p class="canvas-file-hint" data-tools-ui>
+        This is the Panorama icon you will see in Canvas
+        <span class="hint-arrow" aria-hidden="true">&#8593;</span>
+      </p>
+
       <div class="tool-panel">
-        <div class="sample-text">
+        <div class="sample-text" id="panorama-document">
           <h2>Sample course reading</h2>
 
           <p>
-            Accessible course materials give students more ways to learn.
-            A document might be read visually, enlarged, printed,
-            converted to plain text, or presented with customized colors.
+            Accessible course materials give students more ways to
+            learn. A document might be read visually, enlarged, printed,
+            converted to plain text, or presented with customized
+            colors.
           </p>
 
           <p>
@@ -931,51 +1325,93 @@
             They change how those ideas are presented so readers can
             choose a format that works for them.
           </p>
+
+          <p>
+            The format that helps most can change from day to day. A
+            student might read on a laptop in the morning, listen to the
+            same chapter on the bus, and review a printed copy before an
+            exam that evening.
+          </p>
         </div>
 
         <div class="panorama-menu" data-tools-ui>
           <div class="panorama-header">
-            <div class="panorama-symbol" aria-hidden="true">A</div>
+            <span class="panorama-symbol" aria-hidden="true">
+              <svg class="panorama-icon" viewBox="0 0 64 64">
+                <circle class="icon-disc" cx="32" cy="32" r="28"></circle>
+                <circle class="icon-head" cx="32" cy="17" r="5"></circle>
+                <path class="icon-body" d="M16 26h32"></path>
+                <path class="icon-body" d="M32 26v13"></path>
+                <path class="icon-body" d="M32 39l-8 12"></path>
+                <path class="icon-body" d="M32 39l8 12"></path>
+              </svg>
+            </span>
 
             <div>
               <h2>Alternative Formats</h2>
-              <p>Example Panorama-style format menu</p>
+              <p>Week 1 - Accessible Course Materials.pdf</p>
             </div>
           </div>
 
-          <fieldset class="format-options">
-            <legend>Select output formats</legend>
+          <fieldset class="format-options" id="format-options">
+            <legend class="sr-only">Choose an alternative format</legend>
 
             <label class="format-option">
-              <input type="checkbox" value="text">
+              <input type="radio" name="panorama-format" value="text">
 
-              <span>
-                <strong>Plain text file</strong>
+              <span class="format-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 3v5h5"></path>
+                  <path d="M9 13h6M9 17h4"></path>
+                </svg>
+              </span>
+
+              <span class="format-copy">
+                <strong>Text File</strong>
                 <small>
-                  A simple file without visual formatting.
+                  View the document in a pure text format without any
+                  formatting styles, suitable for both online and
+                  download viewing.
                 </small>
               </span>
             </label>
 
             <label class="format-option">
-              <input type="checkbox" value="pdf">
+              <input type="radio" name="panorama-format" value="pdf">
 
-              <span>
+              <span class="format-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 3v5h5"></path>
+                  <path d="M8.5 17v-4h1.5a1.2 1.2 0 0 1 0 2.4H8.5"></path>
+                  <path d="M13 17v-4h1.4a2 2 0 0 1 0 4z"></path>
+                </svg>
+              </span>
+
+              <span class="format-copy">
                 <strong>PDF</strong>
                 <small>
-                  A downloadable document with a consistent layout.
+                  View the document in PDF format, suitable for both
+                  online and download viewing.
                 </small>
               </span>
             </label>
 
             <label class="format-option">
-              <input type="checkbox" value="gradient">
+              <input type="radio" name="panorama-format" value="gradient">
 
-              <span>
-                <strong>Gradient reader</strong>
+              <span class="format-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6h16M4 10h12M4 14h16M4 18h9"></path>
+                </svg>
+              </span>
+
+              <span class="format-copy">
+                <strong>Gradient Reader</strong>
                 <small>
-                  Displays text using a color gradient to support
-                  visual tracking.
+                  Enhances visual word recognition when reading by
+                  providing a guiding color gradient.
                 </small>
               </span>
             </label>
@@ -984,34 +1420,48 @@
           <div class="panorama-actions">
             <button
               class="primary-button"
-              id="convert-formats"
+              id="generate-format"
               type="button"
             >
-              Convert selected formats
+              Generate
             </button>
 
-            <div
-              class="conversion-results"
-              id="conversion-results"
+            <p
+              class="format-status"
+              id="format-status"
+              role="status"
               aria-live="polite"
-            ></div>
+            ></p>
           </div>
         </div>
 
-        <section
-          class="gradient-reader"
-          id="gradient-reader"
-          tabindex="-1"
-          hidden
-        >
-          <h2>Gradient reader output</h2>
+        <p class="panorama-footnote" data-tools-ui>
+          In Canvas, Panorama also offers EPUB, Braille, Audio Podcast,
+          Immersive Reader, and translated versions of a document.
+        </p>
+      </div>
+
+      <section
+        class="format-output"
+        id="format-output"
+        tabindex="-1"
+        aria-labelledby="format-output-title"
+        data-tools-ui
+        hidden
+      >
+        <div class="format-output-bar">
+          <h2 id="format-output-title"></h2>
 
           <div
-            class="gradient-reader-text"
-            id="gradient-reader-text"
+            class="format-output-actions"
+            id="format-output-actions"
           ></div>
-        </section>
-      </div>
+        </div>
+
+        <div id="format-output-body"></div>
+
+        <p class="output-note" id="format-output-note"></p>
+      </section>
     </section>
 
     <!-- Zoom view -->
@@ -1328,12 +1778,20 @@
         View navigation
       */
 
-      function showView(viewName, updateHash = true) {
+      function showView(viewName, updateHash = true, moveFocus = true) {
         const safeView = validViews.includes(viewName)
           ? viewName
           : "home";
 
         stopSpeech();
+
+        /*
+          Every visitor starts from the same place. Leaving a view puts
+          zoom, spacing, contrast, and any generated format back to
+          their defaults, so a setting cannot follow the next student
+          around after someone navigates back.
+        */
+        resetToolSettings();
 
         views.forEach((view) => {
           const isActive = view.dataset.view === safeView;
@@ -1368,7 +1826,7 @@
           `[data-view="${safeView}"] h1`
         );
 
-        if (heading) {
+        if (heading && moveFocus) {
           heading.setAttribute("tabindex", "-1");
           heading.focus();
         }
@@ -1393,41 +1851,110 @@
       });
 
       /*
-        Get readable text from the current view while excluding
-        interactive controls.
+        Called on every view change, so it has to work before any view
+        has been opened.
       */
 
-      function getCurrentViewText() {
-        const activeView = document.querySelector(
-          `[data-view="${currentView}"]`
+      function resetToolSettings() {
+        resetZoomAndSpacing();
+
+        document.body.dataset.contrast = "standard";
+
+        const standardContrast = document.querySelector(
+          'input[name="contrast"][value="standard"]'
         );
 
-        if (!activeView) {
+        if (standardContrast) {
+          standardContrast.checked = true;
+        }
+
+        const speechRate = document.getElementById("speech-rate");
+
+        if (speechRate) {
+          speechRate.value = "1";
+        }
+
+        clearFormatOutput();
+      }
+
+      /*
+        Readable text for the current view, or for a single container.
+        Block elements are collected one by one so paragraph breaks
+        survive; cloning and reading innerText would flatten them.
+      */
+
+      const skipFromText = "[data-tools-ui], .sr-only";
+
+      function extractText(root) {
+        if (!root) {
           return "";
         }
 
-        const copy = activeView.cloneNode(true);
+        const blocks = root.querySelectorAll("h1, h2, h3, p, li");
+        const parts = [];
 
-        copy.querySelectorAll(
-          [
-            "[data-tools-ui]",
-            "button",
-            "input",
-            "select",
-            ".gradient-reader",
-            ".sr-only"
-          ].join(",")
-        ).forEach((element) => element.remove());
+        blocks.forEach((block) => {
+          if (block.closest(skipFromText)) {
+            return;
+          }
 
-        return copy.innerText
-          .replace(/\n{3,}/g, "\n\n")
-          .replace(/[ \t]+/g, " ")
-          .trim();
+          const text = block.textContent
+            .replace(/\s+/g, " ")
+            .trim();
+
+          if (text) {
+            parts.push(text);
+          }
+        });
+
+        return parts.join("\n\n");
+      }
+
+      function getCurrentViewText() {
+        return extractText(
+          document.querySelector(`[data-view="${currentView}"]`)
+        );
+      }
+
+      /*
+        The document Panorama converts: the sample reading only, not
+        the surrounding page.
+      */
+
+      function getDocumentText() {
+        return extractText(
+          document.getElementById("panorama-document")
+        );
       }
 
       /*
         Panorama alternative formats
       */
+
+      const documentFileName = "accessible-course-materials";
+
+      const formatTitles = {
+        text: "Text File",
+        pdf: "PDF",
+        gradient: "Gradient Reader"
+      };
+
+      const formatOutput = document.getElementById("format-output");
+      const formatOutputTitle =
+        document.getElementById("format-output-title");
+      const formatOutputActions =
+        document.getElementById("format-output-actions");
+      const formatOutputBody =
+        document.getElementById("format-output-body");
+      const formatOutputNote =
+        document.getElementById("format-output-note");
+      const formatStatus = document.getElementById("format-status");
+
+      function releaseTemporaryUrls() {
+        while (temporaryUrls.length > 0) {
+          URL.revokeObjectURL(temporaryUrls.pop());
+        }
+      }
 
       function createDownloadLink(label, blob, filename) {
         const url = URL.createObjectURL(blob);
@@ -1557,97 +2084,270 @@
         });
       }
 
-      function showGradientReader(text) {
-        const reader = document.getElementById("gradient-reader");
-        const output = document.getElementById(
-          "gradient-reader-text"
-        );
+      function toParagraphs(text) {
+        return text
+          .split(/\n{2,}/)
+          .map((paragraph) => paragraph.trim())
+          .filter(Boolean);
+      }
 
-        output.replaceChildren();
+      /*
+        Text File
+      */
 
-        text.split(/\n+/).forEach((paragraphText) => {
+      function buildTextOutput(text) {
+        const pre = document.createElement("pre");
+
+        pre.className = "text-output document-surface";
+        pre.tabIndex = 0;
+        pre.textContent = wrapText(text).join("\n").trimEnd();
+
+        return pre;
+      }
+
+      /*
+        PDF. The page on screen uses the same proportions, margins, and
+        typeface as the file the download button produces.
+      */
+
+      function buildPdfOutput(text) {
+        const frame = document.createElement("div");
+        frame.className = "pdf-preview";
+
+        const page = document.createElement("div");
+        page.className = "pdf-page document-surface";
+
+        toParagraphs(text).forEach((paragraphText) => {
           const paragraph = document.createElement("p");
           paragraph.textContent = paragraphText;
-          output.appendChild(paragraph);
+          page.appendChild(paragraph);
         });
 
-        reader.hidden = false;
+        frame.appendChild(page);
+
+        return frame;
+      }
+
+      /*
+        Gradient Reader. Panorama recolors the text line by line so the
+        eye is carried from the end of one line to the start of the
+        next. Browsers decide where the lines break, so each word is
+        wrapped, laid out, then grouped by its vertical position.
+      */
+
+      const gradientPalette = [
+        "#16579c",
+        "#6e1fd6",
+        "#a51874",
+        "#983816",
+        "#4f5e0d",
+        "#0f6717"
+      ];
+
+      let gradientSource = [];
+
+      function colorGradientLines(page) {
+        let lineIndex = 0;
+
+        page.querySelectorAll("[data-gradient-block]").forEach(
+          (block) => {
+            let previousTop = null;
+
+            block.querySelectorAll("span").forEach((word) => {
+              const top = word.offsetTop;
+
+              if (previousTop === null) {
+                previousTop = top;
+              } else if (Math.abs(top - previousTop) > 2) {
+                lineIndex += 1;
+                previousTop = top;
+              }
+
+              word.style.color =
+                gradientPalette[lineIndex % gradientPalette.length];
+            });
+
+            /* Start the next paragraph on a new color. */
+            lineIndex += 1;
+          }
+        );
+      }
+
+      function buildGradientOutput(text) {
+        const page = document.createElement("div");
+        page.className = "gradient-page document-surface";
+
+        gradientSource = toParagraphs(text);
+
+        gradientSource.forEach((paragraphText, index) => {
+          const block = document.createElement("p");
+
+          block.dataset.gradientBlock = "true";
+
+          if (index === 0) {
+            block.className = "gradient-title";
+          }
+
+          paragraphText.split(/\s+/).forEach((word, wordIndex) => {
+            const span = document.createElement("span");
+
+            span.textContent =
+              wordIndex === 0 ? word : ` ${word}`;
+
+            block.appendChild(span);
+          });
+
+          page.appendChild(block);
+        });
+
+        const note = document.createElement("p");
+        note.className = "gradient-forced-colors-note";
+        note.textContent =
+          "Your system is using a forced color theme, " +
+          "which replaces the gradient colors.";
+        page.appendChild(note);
+
+        return page;
+      }
+
+      /*
+        Line breaks move when the window changes size, so the colors
+        are worked out again afterwards.
+      */
+
+      let gradientResizeTimer = null;
+
+      window.addEventListener("resize", () => {
+        const page = formatOutputBody.querySelector(".gradient-page");
+
+        if (!page || formatOutput.hidden) {
+          return;
+        }
+
+        window.clearTimeout(gradientResizeTimer);
+
+        gradientResizeTimer = window.setTimeout(() => {
+          colorGradientLines(page);
+        }, 150);
+      });
+
+      function clearFormatOutput() {
+        releaseTemporaryUrls();
+
+        formatOutput.hidden = true;
+        formatOutputTitle.textContent = "";
+        formatOutputNote.textContent = "";
+        formatOutputActions.replaceChildren();
+        formatOutputBody.replaceChildren();
+        formatStatus.textContent = "";
+
+        document
+          .querySelectorAll('input[name="panorama-format"]')
+          .forEach((input) => {
+            input.checked = false;
+          });
+      }
+
+      function generateFormat(format) {
+        releaseTemporaryUrls();
+
+        const text = getDocumentText();
+
+        formatOutputActions.replaceChildren();
+        formatOutputBody.replaceChildren();
+
+        formatOutputTitle.textContent =
+          `${formatTitles[format]} output`;
+
+        if (format === "text") {
+          formatOutputBody.appendChild(buildTextOutput(text));
+
+          formatOutputActions.appendChild(
+            createDownloadLink(
+              "Download .txt",
+              new Blob([text], {
+                type: "text/plain;charset=utf-8"
+              }),
+              `${documentFileName}.txt`
+            )
+          );
+
+          formatOutputNote.textContent =
+            "Plain text drops the styling and keeps the words, " +
+            "so it can be opened by almost any program or device.";
+        }
+
+        if (format === "pdf") {
+          formatOutputBody.appendChild(buildPdfOutput(text));
+
+          formatOutputActions.appendChild(
+            createDownloadLink(
+              "Download .pdf",
+              createPdfBlob(text),
+              `${documentFileName}.pdf`
+            )
+          );
+
+          formatOutputNote.textContent =
+            "This is the page Panorama would produce. " +
+            "Download it to open the real file.";
+        }
+
+        if (format === "gradient") {
+          const page = buildGradientOutput(text);
+
+          formatOutputBody.appendChild(page);
+          colorGradientLines(page);
+
+          formatOutputNote.textContent =
+            "Each line is a different color, which helps the eye " +
+            "find the start of the next line instead of re-reading " +
+            "the same one.";
+        }
+
+        formatOutput.hidden = false;
+        formatStatus.textContent =
+          `${formatTitles[format]} ready.`;
+
+        liveRegion.textContent =
+          `${formatTitles[format]} generated below the menu.`;
+
+        formatOutput.focus();
       }
 
       document
-        .getElementById("convert-formats")
+        .getElementById("generate-format")
         .addEventListener("click", () => {
-          const selected = Array.from(
-            document.querySelectorAll(
-              '.format-options input[type="checkbox"]:checked'
-            )
-          ).map((input) => input.value);
-
-          const results = document.getElementById(
-            "conversion-results"
+          const selected = document.querySelector(
+            'input[name="panorama-format"]:checked'
           );
 
-          results.replaceChildren();
-
-          if (selected.length === 0) {
-            results.textContent =
-              "Select at least one format to continue.";
+          if (!selected) {
+            formatStatus.textContent =
+              "Choose a format first.";
             return;
           }
 
-          const text = getCurrentViewText();
+          generateFormat(selected.value);
+        });
 
-          if (selected.includes("text")) {
-            const textBlob = new Blob([text], {
-              type: "text/plain;charset=utf-8"
-            });
+      /*
+        The highlighted icon is the way into the menu, the same as in
+        Canvas.
+      */
 
-            results.appendChild(
-              createDownloadLink(
-                "Download plain text",
-                textBlob,
-                "accessible-course-reading.txt"
-              )
-            );
-          }
+      document
+        .getElementById("panorama-icon-button")
+        .addEventListener("click", () => {
+          const menu = document.querySelector(".panorama-menu");
+          const firstOption = menu.querySelector("input");
 
-          if (selected.includes("pdf")) {
-            results.appendChild(
-              createDownloadLink(
-                "Download PDF",
-                createPdfBlob(text),
-                "accessible-course-reading.pdf"
-              )
-            );
-          }
+          menu.scrollIntoView({
+            block: "center",
+            behavior: "smooth"
+          });
 
-          if (selected.includes("gradient")) {
-            showGradientReader(text);
-
-            const readerButton = document.createElement("button");
-
-            readerButton.type = "button";
-            readerButton.className = "secondary-button";
-            readerButton.textContent = "Open gradient reader";
-
-            readerButton.addEventListener("click", () => {
-              const reader = document.getElementById(
-                "gradient-reader"
-              );
-
-              reader.scrollIntoView({
-                block: "start"
-              });
-
-              reader.focus();
-            });
-
-            results.appendChild(readerButton);
-          }
-
-          liveRegion.textContent =
-            `${selected.length} alternate ` +
-            `${selected.length === 1 ? "format" : "formats"} created.`;
+          firstOption.focus({ preventScroll: true });
         });
 
       /*
@@ -1726,29 +2426,33 @@
         letterSpacingOutput.textContent = `${value} em`;
       });
 
+      function resetZoomAndSpacing() {
+        updateZoom(100);
+
+        lineSpacing.value = "1.5";
+        letterSpacing.value = "0";
+
+        document.documentElement.style.setProperty(
+          "--page-line-height",
+          "1.55"
+        );
+
+        document.documentElement.style.setProperty(
+          "--page-letter-spacing",
+          "0em"
+        );
+
+        lineSpacingOutput.value = "1.5";
+        lineSpacingOutput.textContent = "1.5";
+
+        letterSpacingOutput.value = "0 em";
+        letterSpacingOutput.textContent = "0 em";
+      }
+
       document
         .getElementById("reset-zoom")
         .addEventListener("click", () => {
-          updateZoom(100);
-
-          lineSpacing.value = "1.5";
-          letterSpacing.value = "0";
-
-          document.documentElement.style.setProperty(
-            "--page-line-height",
-            "1.55"
-          );
-
-          document.documentElement.style.setProperty(
-            "--page-letter-spacing",
-            "0em"
-          );
-
-          lineSpacingOutput.value = "1.5";
-          lineSpacingOutput.textContent = "1.5";
-
-          letterSpacingOutput.value = "0 em";
-          letterSpacingOutput.textContent = "0 em";
+          resetZoomAndSpacing();
 
           liveRegion.textContent =
             "Zoom and spacing settings reset.";
@@ -1888,13 +2592,10 @@
       const initialView =
         location.hash.replace("#", "") || "home";
 
-      showView(initialView, false);
+      showView(initialView, false, false);
 
       window.addEventListener("beforeunload", () => {
-        temporaryUrls.forEach((url) => {
-          URL.revokeObjectURL(url);
-        });
-
+        releaseTemporaryUrls();
         stopSpeech();
       });
     })();
